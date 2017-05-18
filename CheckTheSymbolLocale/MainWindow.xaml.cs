@@ -13,46 +13,51 @@ namespace CheckTheSymbolLocale
         {
             InitializeComponent();
 
-            tb.Text = "р371A2C3xN\nS5УУ05O86Р\n6Омк75btZм";
+            //Sample data
+            tb.Text = "р371A2C3xN\r\nS5УУ05O86Р\r\n6Омк75btZм";
         }
 
         private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
             if(rtb != null)
             {
-                TextRange rEmpty = new TextRange(rtb.Document.ContentStart, rtb.Document.ContentEnd);
-                Paragraph p = rtb.Document.Blocks.FirstBlock as Paragraph;
-                p.LineHeight = 1;
+                var paragraph = new Paragraph();
+                rtb.Document = new FlowDocument(paragraph);
 
+                paragraph.LineHeight = 15;
+                paragraph.LineStackingStrategy = LineStackingStrategy.BlockLineHeight;
 
                 foreach (var x in tb.Text)
                 {
-                    TextRange tr = new TextRange(rtb.Document.ContentEnd, rtb.Document.ContentEnd);
-                    tr.Text = x.ToString();
+                    var color = Brushes.Black;
 
-                    if (Char.IsNumber(x))
-                    {
-                        tr.ApplyPropertyValue(TextElement.ForegroundProperty, Brushes.Black);
+                    if (x == '\r') {
+                        continue;
                     }
-                    else if (Char.IsPunctuation(x) || Char.IsSymbol(x))
+                    else if (Char.IsNumber(x)) {
+                        color = Brushes.Black; }
+
+                    else if (Regex.IsMatch(x.ToString(), @"\p{IsCyrillic}")) {
+                        color = Brushes.Red; }
+
+                    else if (Regex.IsMatch(x.ToString(), @"\p{IsBasicLatin}")) {
+                        color = Brushes.Green; }
+
+                    else if (Char.IsPunctuation(x) || Char.IsSymbol(x)) {
+                        color = Brushes.Blue; }
+
+                    else { color = Brushes.Purple; }
+
+                    paragraph.Inlines.Add(new Run(x.ToString())
                     {
-                        tr.ApplyPropertyValue(TextElement.ForegroundProperty, Brushes.Blue);
-                    }
-                    else if (Regex.IsMatch(x.ToString(), @"\p{IsCyrillic}"))
-                    {
-                        tr.ApplyPropertyValue(TextElement.ForegroundProperty, Brushes.Red);
-                    }
-                    else if (Regex.IsMatch(x.ToString(), @"\p{IsBasicLatin}"))
-                    {
-                        tr.ApplyPropertyValue(TextElement.ForegroundProperty, Brushes.Green);
-                    }
+                        Foreground = color
+                    });
                 }
             }
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            tb.Text = "";
             tb.Text = Clipboard.GetText();
         }
     }
