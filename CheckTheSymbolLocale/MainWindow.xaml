@@ -5,8 +5,29 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CheckTheSymbolLocale"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525">
+        Title="Проверка символов" Height="400" Width="525">
     <Grid>
-        
+        <Canvas>
+            <TextBox Name="tb"  VerticalScrollBarVisibility="Visible" AcceptsReturn="True" Height="63" Canvas.Left="24" TextWrapping="Wrap" Canvas.Top="20" Width="361" TextChanged="TextBox_TextChanged"/>
+
+            <RichTextBox Name="rtb" IsReadOnly="True"  Height="100" Canvas.Left="24" Canvas.Top="88" Width="361"  VerticalScrollBarVisibility="Visible">
+
+            </RichTextBox>
+            <Button Canvas.Left="401" Canvas.Top="20" Width="96" Height="63" Click="Button_Click">
+                <TextBlock Text="Вставить из буфера" TextWrapping="Wrap" TextAlignment="Center"/>
+            </Button>
+            <Border BorderBrush="Black" BorderThickness="1" Height="30" Canvas.Left="24" Canvas.Top="272" Width="30" Background="Black"/>
+            <Border BorderBrush="Black" BorderThickness="1" Height="30" Canvas.Left="24" Canvas.Top="237" Width="30" Background="Green"/>
+            <Border BorderBrush="Black" BorderThickness="1" Height="30" Canvas.Left="24" Canvas.Top="202" Width="30" Background="Red"/>
+            <Border BorderBrush="Black" BorderThickness="1" Height="30" Canvas.Left="24" Canvas.Top="307" Width="30" Background="Blue"/>
+            
+            <Label Content="Русский" Canvas.Left="54" Canvas.Top="206"/>
+            <Label Content="Английский" Canvas.Left="54" Canvas.Top="241"/>            
+            <Label Content="Число" Canvas.Left="54" Canvas.Top="276"/>
+            <Label Content="Символ" Canvas.Left="54" Canvas.Top="311"/>
+            
+            
+        </Canvas>
+
     </Grid>
 </Window>
